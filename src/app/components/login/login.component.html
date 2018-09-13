@@ -1,0 +1,14 @@
+
+<h2>Please Login Here </h2>
+
+<form>
+  <div>
+    <label for="roomname">Roomname:</label>
+    <input type="text" [(ngModel)]="roomname" name="roomname">
+    <label for="pin">Room pin:</label>
+    <input type="password" [(ngModel)]="pin" name="pin">
+    <button type="button" (click)="onLogin()">Login</button>
+  </div>
+</form>
+
+

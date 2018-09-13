@@ -1,0 +1,31 @@
+<h1>Welcome to room: {{room.name}}</h1>
+
+<div *ngFor="let item of items">
+  <h3>{{item.name}} ( {{item.brand}} )</h3>
+  <h4>Quantity: {{item.qty}} ( {{item.unit}} )</h4>
+</div>
+
+<button (click)="showNewItemForm()">Add new Item</button>
+
+<div *ngIf="isAddItem">
+    <h1>New Item</h1>
+    <form>
+      <div>
+        <label for="name">Name: </label><br>
+        <input #name type="text" name="name">
+      </div>
+      <div>
+        <label for="brand">Brand: </label><br>
+        <input #brand type="text" name="brand">
+      </div>
+      <div>
+        <label for="quantity">Quantity: </label><br>
+        <input #quantity type="number" name="quantity">
+      </div>
+      <div>
+        <label for="unit">Unit: </label><br>
+        <input #unit type="text" name="unit">
+      </div>
+      <button (click)="addItem(name.value, brand.value, quantity.value, unit.value)">Add to Room</button>
+    </form>
+  </div>
