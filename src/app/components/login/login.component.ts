@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {DataService} from '../../services/data.service';
-import {RouterModule, Routes, Router} from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { RouterModule, Routes, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +31,13 @@ export class LoginComponent implements OnInit {
       } else if (room[0]._id !== this.pin) {
         // Tell error, wrong pin
       } else {
+        // Get Token from server
+        this.dataService.getTokenFromServer(room[0].name, room[0]._id)
+          .subscribe(token => {
+            console.log(token);
+            sessionStorage.setItem('token', `Bearer ${token.token}`);
+          });
+
         this.foundRoom = room[0];
         this.router.navigateByUrl(`/rooms/${this.roomname}`);
 

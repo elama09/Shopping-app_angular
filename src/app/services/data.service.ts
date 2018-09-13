@@ -10,9 +10,16 @@ import {ErrorService} from './error.service';
 })
 export class DataService {
   room: object;
-  items: Obeserable<Item[]>;
+  items: object[];
 
   constructor(private http: Http, private error: ErrorService) { }
+
+  getTokenFromServer(roomname: string, pin: string) {
+    return this.http.get(`http://localhost:3000/api/token/${roomname}/${pin}`)
+    .map(res => {
+      return res.json();
+    });
+  }
 
   getRoom(roomname: string) {
     return this.http.get('http://localhost:3000/api/rooms/' + roomname)
