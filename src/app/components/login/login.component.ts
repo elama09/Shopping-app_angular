@@ -32,15 +32,13 @@ export class LoginComponent implements OnInit {
         // Tell error, wrong pin
       } else {
         // Get Token from server
+        this.foundRoom = room[0];
         this.dataService.getTokenFromServer(room[0].name, room[0]._id)
           .subscribe(token => {
             console.log(token);
             sessionStorage.setItem('token', `Bearer ${token.token}`);
+            this.router.navigateByUrl(`/rooms/${this.roomname}`);
           });
-
-        this.foundRoom = room[0];
-        this.router.navigateByUrl(`/rooms/${this.roomname}`);
-
       }
     });
   }

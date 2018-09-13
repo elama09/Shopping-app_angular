@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {DataService} from '../../services/data.service';
-import {RouterModule, Routes, Router} from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { RouterModule, Routes, Router } from '@angular/router';
 
 @Component({
   selector: 'app-room',
@@ -12,9 +12,13 @@ export class RoomComponent implements OnInit {
   items: object[];
   isAddItem = false;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router) {
+    const token = sessionStorage.getItem('token');
+    if (!token) { this.router.navigateByUrl('/'); }
+  }
 
   ngOnInit() {
+
     this.room = this.dataService.room;
     this.items = this.dataService.items;
   }
@@ -47,7 +51,7 @@ export class RoomComponent implements OnInit {
   }
 
   changeItemStatus(item) {
-    const tempItem = Object.assign({}, item, { ready: !item.ready});
+    const tempItem = Object.assign({}, item, { ready: !item.ready });
     this.dataService.changeItemStatus(tempItem);
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i] === item) {
