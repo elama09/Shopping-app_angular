@@ -10,7 +10,7 @@ import {ErrorService} from './error.service';
 })
 export class DataService {
   room: object;
-  items: object[];
+  items: Obeserable<Item[]>;
 
   constructor(private http: Http, private error: ErrorService) { }
 
@@ -34,6 +34,13 @@ export class DataService {
 
   deleteItemFromRoom(item: object) {
     this.http.delete(`http://localhost:3000/api/rooms/${item.room}/items/${item._id}`)
+    .subscribe(res => console.log(res));
+  }
+
+  changeItemStatus(item: object) {
+    const header = new Headers();
+    header.set('Content-Type', 'application/json');
+    this.http.put(`http://localhost:3000/api/rooms/${item.room}/items/${item._id}`, item, {headers: header})
     .subscribe(res => console.log(res));
   }
 }

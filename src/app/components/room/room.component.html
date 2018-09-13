@@ -1,8 +1,8 @@
-<h1>Welcome to room: {{room.name}}</h1>
+<h1>Welcome to room: {{room.name}} <button (click)="exitRoom()">Exit</button></h1>
 
-<div *ngFor="let item of items">
+<div [ngClass]="{'readytrue': item.ready}" *ngFor="let item of items">
   <h3>{{item.name}} ( {{item.brand}} )<button (click)="deleteItem(item)">X</button></h3>
-  <h4>Quantity: {{item.qty}} ( {{item.unit}} )</h4>
+  <h4>Quantity: {{item.qty}} ( {{item.unit}} ) <button (click)="changeItemStatus(item)" *ngIf="!item.ready">Bought?</button><button (click)="changeItemStatus(item)" *ngIf="item.ready">Not Bought?</button></h4>
   <hr>
 </div>
 

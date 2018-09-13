@@ -23,6 +23,10 @@ export class RoomComponent implements OnInit {
     this.isAddItem = !this.isAddItem;
   }
 
+  exitRoom() {
+    this.router.navigateByUrl(`/login`);
+  }
+
   addItem(name: string, brand: string, quantity: number, unit: string) {
     const newItem = {
       name, brand, qty: quantity, unit
@@ -40,6 +44,16 @@ export class RoomComponent implements OnInit {
       }
     }
     this.dataService.deleteItemFromRoom(item);
+  }
+
+  changeItemStatus(item) {
+    const tempItem = Object.assign({}, item, { ready: !item.ready});
+    this.dataService.changeItemStatus(tempItem);
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i] === item) {
+        this.items[i].ready = !this.items[i].ready;
+      }
+    }
   }
 
 }

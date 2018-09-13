@@ -1,0 +1,10 @@
+.readytrue {
+    /* display: flex;
+    justify-content: flex-end; */
+    text-align: right;
+}
+
+.readyfalse {
+    /* display: flex;
+    justify-content: flex-start; */
+}
