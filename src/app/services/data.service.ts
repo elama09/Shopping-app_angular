@@ -33,7 +33,7 @@ export class DataService {
   }
 
   deleteItemFromRoom(item: object) {
-    this.http.delete(`http://localhost:3000/api/rooms/${item.roomname}/items/${item.id}`)
+    this.http.delete(`http://localhost:3000/api/rooms/${item.room}/items/${item._id}`)
     .subscribe(res => console.log(res));
   }
 }

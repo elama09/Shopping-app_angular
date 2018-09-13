@@ -39,7 +39,7 @@ export class RoomComponent implements OnInit {
         this.items.splice(i, 1);
       }
     }
-    // this.dataService.deleteItemFromRoom()
+    this.dataService.deleteItemFromRoom(item);
   }
 
 }
