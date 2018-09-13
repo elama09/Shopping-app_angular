@@ -28,9 +28,7 @@ export class DataService {
   addItemToRoom(item: object, roomname: string) {
     const header = new Headers();
     header.set('Content-Type', 'application/json');
-    this.http.post(`http://localhost:3000/api/rooms/${roomname}/items`, item, {headers: header});
-    console.log('Olen postissa');
-    console.log(item);
-    console.log(header);
+    this.http.post(`http://localhost:3000/api/rooms/${roomname}/items`, item, {headers: header})
+    .subscribe(res => console.log(res));
   }
 }
