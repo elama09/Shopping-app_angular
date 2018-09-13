@@ -6,7 +6,8 @@
   <hr>
 </div>
 
-<button (click)="showNewItemForm()">Add new Item</button>
+<button (click)="showNewItemForm()" *ngIf="!isAddItem">Add new Item</button>
+<button (click)="showNewItemForm()" *ngIf="isAddItem">Cancel</button>
 
 <div *ngIf="isAddItem">
     <h1>New Item</h1>
