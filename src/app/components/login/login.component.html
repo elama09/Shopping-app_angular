@@ -1,4 +1,3 @@
-
 <h2>Please Login Here </h2>
 
 <form>
@@ -10,5 +9,11 @@
     <button type="button" (click)="onLogin()">Login</button>
   </div>
 </form>
-
-
+<h3>Create new room</h3>
+<div>
+  <label for="newRoomname">Roomname:</label>
+  <input type="text" [(ngModel)]="newRoomname">
+  <button type="button" (click)="onCreateRoom()">Create</button>
+  <h3 *ngIf="newRoomExists">Room already exists! Try another one!</h3>
+  <h3 *ngIf="newRoomCreated">Room created! Store Pin-code in secure place, Do Not Lose It! :) <br> PIN: {{newRoomPin}}</h3>
+</div>

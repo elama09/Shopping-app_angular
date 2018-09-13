@@ -32,6 +32,24 @@ export class DataService {
     });
   }
 
+  searchRoom(roomname: string) {
+    return this.http.get('http://localhost:3000/api/rooms/' + roomname)
+    .map(res => {
+      return res.json();
+    });
+  }
+
+  createNewRoom(roomname: string) {
+    const header = new Headers();
+    header.set('Content-Type', 'application/json');
+    const room = {name: roomname};
+    return this.http.post(`http://localhost:3000/api/rooms`, room, {headers: header})
+    .map(res => {
+      return res.json();
+    });
+    // .subscribe(res => console.log(res));
+  }
+
   addItemToRoom(item: object, roomname: string) {
     const header = new Headers();
     header.set('Content-Type', 'application/json');

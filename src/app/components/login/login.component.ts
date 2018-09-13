@@ -12,7 +12,11 @@ export class LoginComponent implements OnInit {
   roomname: string;
   pin: string;
   foundRoom: object;
-  logged: boolean = false;
+  logged = false;
+  newRoomname: string;
+  newRoomExists = false;
+  newRoomCreated = false;
+  newRoomPin: string;
 
   constructor(private dataService: DataService, private router: Router) { }
 
@@ -39,6 +43,23 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('token', `Bearer ${token.token}`);
             this.router.navigateByUrl(`/rooms/${this.roomname}`);
           });
+      }
+    });
+  }
+
+  onCreateRoom() {
+    this.dataService.searchRoom(this.newRoomname).subscribe(found => {
+      if (found.length) {
+        // Room found
+        this.newRoomExists = !this.newRoomExists;
+        setTimeout(() => {
+          this.newRoomExists = !this.newRoomExists;
+        }, 2000);
+      } else {
+        this.dataService.createNewRoom(this.newRoomname).subscribe(data => {
+          this.newRoomPin = data._id;
+          this.newRoomCreated = true;
+        });
       }
     });
   }
