@@ -33,4 +33,13 @@ export class RoomComponent implements OnInit {
     this.dataService.addItemToRoom(newItem, this.room.name);
   }
 
+  deleteItem(item) {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i] === item) {
+        this.items.splice(i, 1);
+      }
+    }
+    // this.dataService.deleteItemFromRoom()
+  }
+
 }

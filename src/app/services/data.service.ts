@@ -31,4 +31,9 @@ export class DataService {
     this.http.post(`http://localhost:3000/api/rooms/${roomname}/items`, item, {headers: header})
     .subscribe(res => console.log(res));
   }
+
+  deleteItemFromRoom(item: object) {
+    this.http.delete(`http://localhost:3000/api/rooms/${item.roomname}/items/${item.id}`)
+    .subscribe(res => console.log(res));
+  }
 }
