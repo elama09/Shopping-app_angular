@@ -18,7 +18,6 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.room = this.dataService.room;
     this.items = this.dataService.items;
   }
@@ -28,6 +27,7 @@ export class RoomComponent implements OnInit {
   }
 
   exitRoom() {
+    sessionStorage.removeItem('token');
     this.router.navigateByUrl(`/login`);
   }
 

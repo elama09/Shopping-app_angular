@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   roomname: string;
   pin: string;
   foundRoom: object;
+  notFoundOrWrongPin = false;
   logged = false;
   newRoomname: string;
   newRoomExists = false;
@@ -30,12 +31,14 @@ export class LoginComponent implements OnInit {
     console.log(this.pin);
     this.dataService.getRoom(this.roomname).subscribe(room => {
       console.log(room);
-      if (room.length === 0) {
+      if (room.length === 0 || room[0]._id !== this.pin) {
         // Tell error, room not found or wrong pin
-      } else if (room[0]._id !== this.pin) {
-        // Tell error, wrong pin
+        this.notFoundOrWrongPin = true;
+        setTimeout(() => {
+          this.notFoundOrWrongPin = false;
+        }, 1200);
       } else {
-        // Get Token from server
+        // Get Token from server AND Room OK!
         this.foundRoom = room[0];
         this.dataService.getTokenFromServer(room[0].name, room[0]._id)
           .subscribe(token => {
@@ -54,7 +57,7 @@ export class LoginComponent implements OnInit {
         this.newRoomExists = !this.newRoomExists;
         setTimeout(() => {
           this.newRoomExists = !this.newRoomExists;
-        }, 2000);
+        }, 1500);
       } else {
         this.dataService.createNewRoom(this.newRoomname).subscribe(data => {
           this.newRoomPin = data._id;
