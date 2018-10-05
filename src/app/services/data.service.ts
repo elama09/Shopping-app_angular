@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import 'rxjs-compat';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { Item } from '../classes/item';
 import { Room } from '../classes/room';
+import { Observable, of, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -15,13 +16,36 @@ export class DataService {
   room: Room;
   items: Item[];
 
-  constructor(private http: Http, private error: ErrorService) { }
+  constructor(private http: Http, private error: ErrorService,
+    private httpclient: HttpClient) { }
+
+  // NEW
+  getTokenFromServer2<T>(roomname: string, pin: string): Observable<T> {
+    return this.httpclient.get<T>(`http://localhost:3000/api/token/${roomname}/${pin}`)
+    .pipe(tap(
+      token => console.log(`Got token from server: ${token}`)),
+      catchError(err => {
+        return throwError('Error in fetching data from server');
+      }));
+  }
 
   getTokenFromServer(roomname: string, pin: string) {
     return this.http.get(`http://localhost:3000/api/token/${roomname}/${pin}`)
       .map(res => {
         return res.json();
       });
+  }
+
+  // NEW
+  getRoom2(roomname: string): Observable<Room> {
+    return this.httpclient.get<Room>('http://localhost:3000/api/rooms/' + roomname)
+      .pipe(tap(ro => {
+        console.log(`Fetching room (${roomname}) from server: ${ro}`);
+      }),
+      catchError(err => {
+        return throwError('Error in fetching data from server');
+      })
+      );
   }
 
   getRoom(roomname: string) {
