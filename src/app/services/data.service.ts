@@ -4,13 +4,16 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import 'rxjs-compat';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from './error.service';
+import { Item } from '../classes/item';
+import { Room } from '../classes/room';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  room: object;
-  items: object[];
+  room: Room;
+  items: Item[];
 
   constructor(private http: Http, private error: ErrorService) { }
 
@@ -54,19 +57,19 @@ export class DataService {
     // .subscribe(res => console.log(res));
   }
 
-  addItemToRoom(item: object, roomname: string) {
+  addItemToRoom(item: Item, roomname: string) {
     const header = new Headers();
     header.set('Content-Type', 'application/json');
     this.http.post(`http://localhost:3000/api/rooms/${roomname}/items`, item, { headers: header })
       .subscribe(res => console.log(res));
   }
 
-  deleteItemFromRoom(item: object) {
+  deleteItemFromRoom(item: Item) {
     this.http.delete(`http://localhost:3000/api/rooms/${item.room}/items/${item._id}`)
       .subscribe(res => console.log(res));
   }
 
-  changeItemStatus(item: object) {
+  changeItemStatus(item: Item) {
     const header = new Headers();
     header.set('Content-Type', 'application/json');
     this.http.put(`http://localhost:3000/api/rooms/${item.room}/items/${item._id}`, item, { headers: header })

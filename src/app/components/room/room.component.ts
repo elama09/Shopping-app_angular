@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { RouterModule, Routes, Router } from '@angular/router';
+import { Item } from '../../classes/item';
+import { Room } from '../../classes/room';
 
 @Component({
   selector: 'app-room',
@@ -8,13 +10,13 @@ import { RouterModule, Routes, Router } from '@angular/router';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-  room: object;
-  items: object[];
+  room: Room;
+  items: Item[];
   isAddItem = false;
 
   constructor(private dataService: DataService, private router: Router) {
     const token = sessionStorage.getItem('token');
-    if (!token) { this.router.navigateByUrl('/'); }
+    // if (!token) { this.router.navigateByUrl('/'); } Change this completely
   }
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class RoomComponent implements OnInit {
   }
 
   addItem(name: string, brand: string, quantity: number, unit: string) {
-    const newItem = {
+    const newItem: Item = {
       name, brand, qty: quantity, unit
     };
     console.log(newItem);
@@ -51,7 +53,7 @@ export class RoomComponent implements OnInit {
   }
 
   changeItemStatus(item) {
-    const tempItem = Object.assign({}, item, { ready: !item.ready });
+    const tempItem: Item = Object.assign({}, item, { ready: !item.ready });
     this.dataService.changeItemStatus(tempItem);
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i] === item) {
