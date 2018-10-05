@@ -51,6 +51,11 @@ export class LoginComponent implements OnInit {
   }
 
   onCreateRoom() {
+    if (this.newRoomname.length < 4) {
+      alert('Name too short! Must be minimum of 3 characters.');
+      return;
+    }
+
     this.dataService.searchRoom(this.newRoomname).subscribe(found => {
       if (found.length) {
         // Room found
