@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs-compat';
 import { catchError, tap, map } from 'rxjs/operators';
 import { ErrorService } from './error.service';
@@ -39,11 +39,11 @@ export class DataService {
   // NEW
   getRoom2(roomname: string): Observable<Room> {
     return this.httpclient.get<Room>('http://localhost:3000/api/rooms/' + roomname)
-      .pipe(tap(ro => {
-        console.log(`Fetching room (${roomname}) from server: ${ro}`);
+      .pipe(
+        tap(ro => {console.log(`Fetching room (${roomname}) from server: ${ro}`);
       }),
       catchError(err => {
-        return throwError('Error in fetching data from server');
+        return throwError(`Error in fetching data from server: ${err}`);
       })
       );
   }
@@ -63,11 +63,35 @@ export class DataService {
       });
   }
 
+  // NEW
+  searchRoom2(roomname: string): Observable<Room> {
+    return this.httpclient.get<Room>('http://localhost:3000/api/rooms/' + roomname)
+    .pipe(
+      tap(ro => console.log(`Searching room... ${ro}`)),
+      catchError(err => {
+        return throwError(`Error in finding room: ${err}`);
+      })
+    );
+  }
+
   searchRoom(roomname: string) {
     return this.http.get('http://localhost:3000/api/rooms/' + roomname)
       .map(res => {
         return res.json();
       });
+  }
+
+  // NEW
+  createNewRoom2(roomname: string): Observable<Room> {
+    const room = { name: roomname };
+    const headerOptions = {headers: new HttpHeaders({'Content-Type':  'application/json'})};
+    return this.httpclient.post<Room>(`http://localhost:3000/api/rooms`, room, headerOptions)
+      .pipe(
+        tap(ro => console.log(`Creating new room to server: ${{ro}}`)),
+        catchError(err => {
+          return throwError(`Error in creating room: ${err}`);
+        })
+      );
   }
 
   createNewRoom(roomname: string) {
